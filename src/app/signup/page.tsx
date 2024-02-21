@@ -11,7 +11,7 @@ import {
 } from "@nextui-org/react";
 import { useState } from "react";
 
-export default function LoginPage() {
+export default function SignUpPage() {
   const [email, setEmail] = useState<string>("");
 
   const handelLogin = async () => {};
@@ -24,13 +24,22 @@ export default function LoginPage() {
           <Card className="mx-auto max-w-sm h-full">
             <CardHeader className="justify-center">
               <div className="text-center">
-                <p className="text-md">LogIn</p>
+                <p className="text-md">Register</p>
                 <p className="text-small text-default-500">
-                  Enter your email and password below
+                  Enter your details below to register
                 </p>
               </div>
             </CardHeader>
             <CardBody className="space-y-4">
+              <div className="space-y-2">
+                <Input
+                  label="Full Name"
+                  id="name"
+                  placeholder="John Deo"
+                  required
+                  type="email"
+                />
+              </div>
               <div className="space-y-2">
                 <Input
                   label="Email"

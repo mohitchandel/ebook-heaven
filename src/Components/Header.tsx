@@ -44,10 +44,24 @@ export default function App() {
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
-          <Link href="#">Login</Link>
+          <Button
+            className="bg-black text-white"
+            as={Link}
+            color="primary"
+            href="/login"
+            variant="flat"
+          >
+            Log In
+          </Button>
         </NavbarItem>
         <NavbarItem>
-          <Button as={Link} color="primary" href="#" variant="flat">
+          <Button
+            className="bg-neon text-black"
+            as={Link}
+            color="primary"
+            href="/signup"
+            variant="flat"
+          >
             Sign Up
           </Button>
         </NavbarItem>
