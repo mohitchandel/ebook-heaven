@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Header from "@/components/Header";
-import EbookGrid from "@/components/Ebooks/EbookGrid";
-import Hero from "@/components/Hero";
-import Footer from "@/components/Footer";
+import Header from "@/Components/Header";
+import EbookGrid from "@/Components/Ebooks/EbookGrid";
+import Hero from "@/Components/Hero";
+import Footer from "@/Components/Footer";
 
 export const metadata: Metadata = {
   title: "E-Book Heaven",

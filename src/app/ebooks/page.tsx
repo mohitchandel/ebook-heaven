@@ -1,8 +1,9 @@
-import EbookGrid from "@/components/Ebooks/EbookGrid";
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
+import EbookGrid from "@/Components/Ebooks/EbookGrid";
+import Footer from "@/Components/Footer";
+import Header from "@/Components/Header";
 import { Ebook } from "@/types/Ebook";
 import { Button } from "@nextui-org/react";
+import { trpc } from "../_trpc/client";
 
 export default function Ebook() {
   return (

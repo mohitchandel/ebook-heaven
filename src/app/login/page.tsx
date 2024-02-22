@@ -1,6 +1,6 @@
 "use client";
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
+import Footer from "@/Components/Footer";
+import Header from "@/Components/Header";
 import {
   Button,
   Card,
@@ -35,7 +35,7 @@ export default function LoginPage() {
                 <Input
                   label="Email"
                   id="email"
-                  placeholder="email@example.com"
+                  isRequired
                   required
                   type="email"
                 />
@@ -44,6 +44,7 @@ export default function LoginPage() {
                 <Input
                   label="Password"
                   id="password"
+                  isRequired
                   required
                   type="password"
                 />

@@ -1,6 +1,6 @@
-import EbookSingle from "@/components/Ebooks/EbookSingle";
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
+import EbookSingle from "@/Components/Ebooks/EbookSingle";
+import Footer from "@/Components/Footer";
+import Header from "@/Components/Header";
 import { Ebook } from "@/types/Ebook";
 import { Button } from "@nextui-org/react";
 

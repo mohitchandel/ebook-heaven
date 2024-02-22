@@ -18,7 +18,7 @@ export default function App() {
   const menuItems = [
     { text: "Home", link: "/" },
     { text: "All Books", link: "/ebooks" },
-    { text: "List Book", link: "/" },
+    { text: "List Book", link: "/listbook" },
   ];
 
   return (
