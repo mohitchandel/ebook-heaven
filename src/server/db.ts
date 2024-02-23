@@ -16,19 +16,12 @@ export const db = {
       });
       return user;
     },
-    create: async (profile: {
-      name: string;
-      email: string;
-      password: string;
-      type: string;
-    }) => {
+    create: async (profile: { userId: string; name: string; type: string }) => {
       await prisma.profiles.create({
         data: {
+          user_id: profile.userId,
           name: profile.name,
-          email: profile.email,
-          password: profile.password,
           type: profile.type,
-          is_verified: false,
         },
       });
     },

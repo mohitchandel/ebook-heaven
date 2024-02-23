@@ -31,7 +31,6 @@ export default function ListBookPage() {
 
   return (
     <>
-      <Header />
       <div className="flex items-center justify-center min-h-[85vh] max-h-[100vh]">
         <div className="w-full max-w-screen-lg md:w-3/5">
           <Card className="mx-auto max-w-sm h-full">

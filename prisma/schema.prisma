@@ -14,13 +14,10 @@ enum userType {
 
 model profiles {
   id String @id @default(uuid())
+  user_id String @default("")
   name String
-  email String @unique
-  password String
   type  String
-  is_verified Boolean @default(false)
-  create_at DateTime? @default(now()) @db.Timestamp(6)
-  updated_at DateTime? @default(now()) @db.Timestamp(6)
+  published_ebook String[]
 }
 
 model ebooks {

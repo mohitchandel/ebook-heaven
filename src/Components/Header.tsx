@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Navbar,
   NavbarBrand,
@@ -11,15 +11,46 @@ import {
   Button,
 } from "@nextui-org/react";
 import Link from "next/link";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { User } from "@supabase/supabase-js";
 
-export default function App() {
+export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [userId, setUserId] = useState<string>();
+  const supabase = createClientComponentClient();
 
   const menuItems = [
     { text: "Home", link: "/" },
     { text: "All Books", link: "/ebooks" },
     { text: "List Book", link: "/listbook" },
   ];
+
+  const handleSignOut = async () => {
+    const { error } = await supabase.auth.signOut();
+
+    if (!error) {
+      location.reload();
+    }
+  };
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      setUserId(user?.id);
+      console.log(user);
+    };
+    fetchUser();
+  }, []);
+
+  useEffect(() => {
+    const refereshSession = async () => {
+      const { data, error } = await supabase.auth.refreshSession();
+      return data;
+    };
+    refereshSession();
+  }, [userId]);
 
   return (
     <Navbar className=" border" onMenuOpenChange={setIsMenuOpen}>
@@ -43,28 +74,54 @@ export default function App() {
         ))}
       </NavbarContent>
       <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
-          <Button
-            className="bg-black text-white"
-            as={Link}
-            color="primary"
-            href="/login"
-            variant="flat"
-          >
-            Log In
-          </Button>
-        </NavbarItem>
-        <NavbarItem>
-          <Button
-            className="bg-neon text-black"
-            as={Link}
-            color="primary"
-            href="/signup"
-            variant="flat"
-          >
-            Sign Up
-          </Button>
-        </NavbarItem>
+        {!userId ? (
+          <>
+            <NavbarItem className="hidden lg:flex">
+              <Button
+                className="bg-black text-white"
+                as={Link}
+                color="primary"
+                href="/login"
+                variant="flat"
+              >
+                Log In
+              </Button>
+            </NavbarItem>
+            <NavbarItem>
+              <Button
+                className="bg-neon text-black"
+                as={Link}
+                color="primary"
+                href="/signup"
+                variant="flat"
+              >
+                Sign Up
+              </Button>
+            </NavbarItem>
+          </>
+        ) : (
+          <>
+            <NavbarItem className="hidden lg:flex">
+              <Button
+                className="bg-black text-white"
+                color="primary"
+                variant="flat"
+                onPress={handleSignOut}
+              >
+                SignOut
+              </Button>
+            </NavbarItem>
+            <NavbarItem>
+              <Button
+                className="bg-neon text-black"
+                color="primary"
+                variant="flat"
+              >
+                Profile
+              </Button>
+            </NavbarItem>
+          </>
+        )}
       </NavbarContent>
       <NavbarMenu>
         {menuItems.map((item, index) => (
@@ -87,4 +144,7 @@ export default function App() {
       </NavbarMenu>
     </Navbar>
   );
+}
+function async() {
+  throw new Error("Function not implemented.");
 }

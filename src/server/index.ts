@@ -13,12 +13,11 @@ export const appRouter = router({
     const user = await db.profiles.findById(input);
     return user;
   }),
-  createUser: publicProcedure
+  createUserProfile: publicProcedure
     .input(
       z.object({
+        userId: z.string(), // TODO: validate UUID format?
         name: z.string(),
-        email: z.string(),
-        password: z.string(),
         type: z.string(),
       })
     )

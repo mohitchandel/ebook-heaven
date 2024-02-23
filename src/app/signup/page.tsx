@@ -12,14 +12,14 @@ import {
   SelectItem,
   Spinner,
 } from "@nextui-org/react";
-import md5 from "md5";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { trpc } from "../_trpc/client";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 export default function SignUpPage() {
-  const createUser = trpc.createUser.useMutation({
+  const createUserProfile = trpc.createUserProfile.useMutation({
     onError(error) {
       toast.error("Something went wrong");
       console.error("Error:", error);
@@ -29,7 +29,7 @@ export default function SignUpPage() {
       toast.success("Registered");
       console.log(data);
       setIsLoading(false);
-      redirect("/");
+      router.replace("/login");
     },
   });
 
@@ -38,28 +38,47 @@ export default function SignUpPage() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [profileType, setProfileType] = useState<string>("");
+  const router = useRouter();
+  const supabase = createClientComponentClient();
 
+  /**
+   * The `register` function handles user registration by signing up with email and password, creating a user profile, and displaying appropriate error messages.
+   */
   const register = async () => {
     setIsLoading(true);
-
     if (!name || !email || !password || !profileType) {
       toast.error("Please provide all required information.");
       setIsLoading(false);
       return;
     }
-    const encryptedPass = md5(password);
-    const userData = {
-      name,
-      email,
-      password: encryptedPass,
-      type: profileType,
-    };
-    createUser.mutate(userData);
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: `${location.origin}`,
+        },
+      });
+      if (data.user) {
+        const userData = {
+          userId: data.user?.id,
+          name,
+          type: profileType,
+        };
+        createUserProfile.mutate(userData);
+      }
+      if (error) {
+        toast.error(error.message);
+      }
+      setIsLoading(false);
+    } catch (err) {
+      toast.error(`Error creating account`);
+      setIsLoading(false);
+    }
   };
 
   return (
     <>
-      <Header />
       <div className="flex items-center justify-center min-h-[85vh] max-h-[100vh]">
         <div className="w-full max-w-screen-lg md:w-3/5">
           <Card className="mx-auto max-w-sm h-full">
