@@ -11,8 +11,9 @@ import {
 } from "@nextui-org/react";
 import { trpc } from "../_trpc/client";
 import toast from "react-hot-toast";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import UserContext from "../context/UserContext";
+import { useRouter } from "next/navigation";
 
 const IMAGE_BUCKET =
   "https://rzxplxrngallpbwhapso.supabase.co/storage/v1/object/public/image/";
@@ -26,8 +27,12 @@ export default function ListBookPage() {
   const [description, setDescription] = useState<string>();
   const [bookPdf, setBookPdf] = useState<File | null>();
   const [thumbnail, setThumbnail] = useState<File | null>();
+  const router = useRouter();
   const currentTimestamp = +new Date();
   const supabse = createClient();
+
+  const { userId } = useContext(UserContext);
+  const { data: userData } = trpc.getUserById.useQuery(userId);
 
   const listBookMutation = trpc.createEbooks.useMutation({
     onError(error) {
@@ -41,6 +46,9 @@ export default function ListBookPage() {
   });
 
   const handleListBook = async () => {
+    if (!userData) {
+      return;
+    }
     if (!title || !description || !bookPdf || !thumbnail) {
       toast.error("Please fill in all fields.");
       return;
@@ -61,11 +69,13 @@ export default function ListBookPage() {
       listBookMutation.mutate({
         title,
         description,
-        author: "5b65466f-d93b-425c-a434-51923447527d",
+        author_id: userId,
+        author_name: userData?.name,
         ebook_file: BOOK_BUCKET + pdfUpload?.path,
         thumbnail: IMAGE_BUCKET + imgUpload?.path,
       });
       toast.success("Book Uploaded!");
+      router.replace("/ebooks");
       setIsLoading(false);
     } catch (err) {
       setIsLoading(false);
@@ -85,6 +95,12 @@ export default function ListBookPage() {
       setThumbnail(e.target.files[0]);
     }
   };
+
+  useEffect(() => {
+    if (userData?.type !== "Author") {
+      router.replace("/");
+    }
+  }, [userData]);
 
   return (
     <>

@@ -31,10 +31,18 @@ export const db = {
       const users = await prisma.ebooks.findMany();
       return users;
     },
-    findById: async (userId: string) => {
+    findById: async (id: string) => {
       const user = await prisma.ebooks.findUnique({
         where: {
-          id: userId,
+          id: id,
+        },
+      });
+      return user;
+    },
+    findByAuthorId: async (author_id: string) => {
+      const user = await prisma.ebooks.findMany({
+        where: {
+          author_id: author_id,
         },
       });
       return user;
@@ -42,7 +50,8 @@ export const db = {
     create: async (ebook: {
       title: string;
       description: string;
-      author: string;
+      author_id: string;
+      author_name: string;
       ebook_file: string;
       thumbnail: string;
     }) => {
@@ -50,7 +59,8 @@ export const db = {
         data: {
           title: ebook.title,
           description: ebook.description,
-          author: ebook.author,
+          author_id: ebook.author_id,
+          author_name: ebook.author_name,
           ebook_file: ebook.ebook_file,
           thumbnail: ebook.thumbnail,
         },

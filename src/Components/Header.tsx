@@ -19,14 +19,6 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import UserContext from "@/app/context/UserContext";
 import { trpc } from "@/app/_trpc/client";
 
-type UserType = {
-  name: string;
-  type: string;
-  id: string;
-  user_id: string;
-  published_ebook: string[];
-};
-
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const supabase = createClientComponentClient();
@@ -36,12 +28,6 @@ export default function Header() {
   const { data: userData } = trpc.getUserById.useQuery(userId || "", {
     enabled: !!userId,
   });
-
-  const menuItems = [
-    { text: "Home", link: "/" },
-    { text: "All Books", link: "/ebooks" },
-    { text: "List Book", link: "/listbook" },
-  ];
 
   const handleSignOut = async () => {
     const { error } = await supabase.auth.signOut();
@@ -89,11 +75,17 @@ export default function Header() {
         </NavbarContent>
 
         <NavbarContent className="hidden sm:flex gap-4" justify="center">
-          {menuItems.map((items, index) => (
-            <NavbarItem key={index}>
-              <Link href={items.link}>{items.text}</Link>
+          <NavbarItem>
+            <Link href={"/"}>Home</Link>
+          </NavbarItem>
+          <NavbarItem>
+            <Link href={"/ebooks"}>All Books</Link>
+          </NavbarItem>
+          {userData?.type === "Author" && (
+            <NavbarItem>
+              <Link href={"/listbook"}>List Book</Link>
             </NavbarItem>
-          ))}
+          )}
         </NavbarContent>
 
         <NavbarContent className="hidden sm:flex gap-4" justify="end">
@@ -134,23 +126,23 @@ export default function Header() {
           )}
         </NavbarContent>
         <NavbarMenu>
-          {menuItems.map((item, index) => (
-            <NavbarMenuItem key={`${item}-${index}`}>
-              <Link
-                color={
-                  index === 2
-                    ? "primary"
-                    : index === menuItems.length - 1
-                    ? "danger"
-                    : "foreground"
-                }
-                className="w-full"
-                href={item.link}
-              >
-                {item.text}
+          <NavbarMenuItem>
+            <Link className={"w-full"} href={"/"}>
+              Home
+            </Link>
+          </NavbarMenuItem>
+          <NavbarMenuItem>
+            <Link className={"w-full"} href={"/ebooks"}>
+              All Books
+            </Link>
+          </NavbarMenuItem>
+          {userData?.type === "Author" && (
+            <NavbarMenuItem>
+              <Link className={"w-full"} href={"/listbook"}>
+                List Book
               </Link>
             </NavbarMenuItem>
-          ))}
+          )}
 
           {!userId ? (
             <>
@@ -173,7 +165,7 @@ function DropdownUserItem({
   sessionUser,
   handleSignOut,
 }: {
-  sessionUser: UserType | null | undefined;
+  sessionUser: any;
   handleSignOut: MouseEventHandler<HTMLLIElement> | undefined;
 }) {
   return (

@@ -4,6 +4,7 @@ import { db } from "./db";
 import { publicProcedure, router } from "./trpc";
 
 export const appRouter = router({
+  // user Method
   getUserById: publicProcedure.input(z.string()).query(async (opts) => {
     const { input } = opts;
     const user = await db.profiles.findById(input);
@@ -22,16 +23,29 @@ export const appRouter = router({
       const user = await db.profiles.create(input);
       return user;
     }),
+
+  // Ebook Methods
   getEbooks: publicProcedure.query(async () => {
     const ebooks = await db.ebooks.findMany();
     return ebooks;
+  }),
+  getEbookById: publicProcedure.input(z.string()).query(async (opts) => {
+    const { input } = opts;
+    const ebook = await db.ebooks.findById(input);
+    return ebook;
+  }),
+  getEbooksByAuthorId: publicProcedure.input(z.string()).query(async (opts) => {
+    const { input } = opts;
+    const ebook = await db.ebooks.findByAuthorId(input);
+    return ebook;
   }),
   createEbooks: publicProcedure
     .input(
       z.object({
         title: z.string(),
         description: z.string(),
-        author: z.string(),
+        author_id: z.string(),
+        author_name: z.string(),
         ebook_file: z.string(),
         thumbnail: z.string(),
       })

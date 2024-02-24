@@ -23,7 +23,8 @@ model ebooks {
   id String @id @default(uuid())
   title String
   description String
-  author String
+  author_id String
+  author_name String
   ebook_file  String
   thumbnail String
   uploadet_at DateTime? @default(now()) @db.Timestamp(6)
