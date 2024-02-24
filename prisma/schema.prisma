@@ -14,10 +14,9 @@ enum userType {
 
 model profiles {
   id String @id @default(uuid())
-  user_id String @default("")
+  user_id String @unique
   name String
   type  String
-  published_ebook String[]
 }
 
 model ebooks {

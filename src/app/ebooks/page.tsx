@@ -11,7 +11,6 @@ export default function Ebook() {
       <main className="flex min-h-screen flex-col items-center justify-between p-24">
         <EbookGrid />
       </main>
-      <Footer />
     </>
   );
 }

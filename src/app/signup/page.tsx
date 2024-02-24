@@ -1,6 +1,5 @@
 "use client";
 import Footer from "@/Components/Footer";
-import Header from "@/Components/Header";
 import {
   Button,
   Card,
@@ -15,7 +14,7 @@ import {
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { trpc } from "../_trpc/client";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 export default function SignUpPage() {
@@ -154,7 +153,6 @@ export default function SignUpPage() {
           </Card>
         </div>
       </div>
-      <Footer />
     </>
   );
 }

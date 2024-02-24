@@ -18,7 +18,6 @@ export default function Ebook() {
       <main>
         <EbookSingle ebook={demoEbook} />
       </main>
-      <Footer />
     </>
   );
 }

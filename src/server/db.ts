@@ -11,7 +11,7 @@ export const db = {
     findById: async (userId: string) => {
       const user = await prisma.profiles.findUnique({
         where: {
-          id: userId,
+          user_id: userId,
         },
       });
       return user;

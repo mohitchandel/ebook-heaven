@@ -16,7 +16,6 @@ export default function Home() {
         <Hero />
         <EbookGrid />
       </main>
-      <Footer />
     </>
   );
 }

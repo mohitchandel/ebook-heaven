@@ -1,6 +1,4 @@
 "use client";
-import Footer from "@/Components/Footer";
-import Header from "@/Components/Header";
 import { createClient } from "@/utils/supabase/client";
 import {
   Button,
@@ -8,25 +6,84 @@ import {
   CardBody,
   CardHeader,
   Input,
+  Spinner,
   Textarea,
 } from "@nextui-org/react";
+import { trpc } from "../_trpc/client";
+import toast from "react-hot-toast";
+import { useContext, useState } from "react";
+import UserContext from "../context/UserContext";
+
+const IMAGE_BUCKET =
+  "https://rzxplxrngallpbwhapso.supabase.co/storage/v1/object/public/image/";
+
+const BOOK_BUCKET =
+  "https://rzxplxrngallpbwhapso.supabase.co/storage/v1/object/public/books/";
 
 export default function ListBookPage() {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [title, setTitle] = useState<string>();
+  const [description, setDescription] = useState<string>();
+  const [bookPdf, setBookPdf] = useState<File | null>();
+  const [thumbnail, setThumbnail] = useState<File | null>();
+  const currentTimestamp = +new Date();
   const supabse = createClient();
-  const handleListBook = async (e: any) => {
-    e.preventDefault();
-    const title = e.target[0].value;
-    const description = e.target[1].value;
-    const pdf = e.target[2].value;
-    const thumbnail = e.target[3].value;
 
-    const { data: pdfUpload, error: pdfError } = await supabse.storage
-      .from("images")
-      .upload("public/" + pdf.name, pdf as File);
+  const listBookMutation = trpc.createEbooks.useMutation({
+    onError(error) {
+      console.error("Error:", error);
+      setIsLoading(false);
+    },
+    onSuccess(data) {
+      console.log(data);
+      setIsLoading(false);
+    },
+  });
 
-    const { data: imgUpload, error: imgError } = await supabse.storage
-      .from("images")
-      .upload("public/" + thumbnail.name, thumbnail as File);
+  const handleListBook = async () => {
+    if (!title || !description || !bookPdf || !thumbnail) {
+      toast.error("Please fill in all fields.");
+      return;
+    }
+    try {
+      setIsLoading(true);
+      const { data: pdfUpload, error: pdfError } = await supabse.storage
+        .from("books")
+        .upload("public/" + currentTimestamp, bookPdf as File);
+      const { data: imgUpload, error: imgError } = await supabse.storage
+        .from("image")
+        .upload("public/" + currentTimestamp, thumbnail as File);
+      if (pdfError || imgError) {
+        toast.error("Failed to upload files");
+        setIsLoading(false);
+        return;
+      }
+      listBookMutation.mutate({
+        title,
+        description,
+        author: "5b65466f-d93b-425c-a434-51923447527d",
+        ebook_file: BOOK_BUCKET + pdfUpload?.path,
+        thumbnail: IMAGE_BUCKET + imgUpload?.path,
+      });
+      toast.success("Book Uploaded!");
+      setIsLoading(false);
+    } catch (err) {
+      setIsLoading(false);
+      toast.error("Failed to create book");
+      console.error(err);
+    }
+  };
+
+  const handlePDFUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setBookPdf(e.target.files[0]);
+    }
+  };
+
+  const handleThumbnailUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setThumbnail(e.target.files[0]);
+    }
   };
 
   return (
@@ -36,61 +93,72 @@ export default function ListBookPage() {
           <Card className="mx-auto max-w-sm h-full">
             <CardHeader className="justify-center">
               <div className="text-center">
-                <p className="text-md">Register</p>
+                <p className="text-md">List Your Book</p>
                 <p className="text-small text-default-500">
-                  Enter your details below to register
+                  Enter the details of your book below.
                 </p>
               </div>
             </CardHeader>
             <CardBody className="space-y-4">
-              <form onSubmit={handleListBook}>
-                <div className="space-y-2 my-3">
-                  <Input
-                    // isRequired
-                    label="Book Title"
-                    id="title"
-                    name="title"
-                    required
-                    type="text"
-                  />
-                </div>
-                <div className="space-y-2 my-3">
-                  <Textarea
-                    // isRequired
-                    label="Description"
-                    placeholder="Enter your book description"
-                    className=""
-                  />
-                </div>
-                <div className="space-y-2 my-3">
-                  <label className="text-sm mb-0">Ebook (PDF Only)</label>
-                  <Input
-                    // isRequired
-                    id="ebook"
-                    accept="application/pdf"
-                    type="file"
-                  />
-                </div>
-                <div className="space-y-2 my-3">
-                  <label className="text-sm mb-0">Thumbnail</label>
-                  <Input
-                    // isRequired
-                    id="thumbnail"
-                    accept="image/*"
-                    type="file"
-                  />
-                </div>
-                <div className="space-y-2 my-3">
+              <div className="space-y-2 my-3">
+                <Input
+                  isRequired
+                  label="Book Title"
+                  id="title"
+                  name="title"
+                  required
+                  onChange={(e) => setTitle(e.target.value)}
+                  type="text"
+                />
+              </div>
+              <div className="space-y-2 my-3">
+                <Textarea
+                  isRequired
+                  label="Description"
+                  placeholder="Enter your book description"
+                  onChange={(e) => setDescription(e.target.value)}
+                  className=""
+                />
+              </div>
+              <div className="space-y-2 my-3">
+                <label className="text-sm mb-0">Ebook (PDF Only)</label>
+                <Input
+                  isRequired
+                  id="ebook"
+                  accept="application/pdf"
+                  onChange={handlePDFUpload}
+                  type="file"
+                />
+              </div>
+              <div className="space-y-2 my-3">
+                <label className="text-sm mb-0">Thumbnail</label>
+                <Input
+                  isRequired
+                  id="thumbnail"
+                  onChange={handleThumbnailUpload}
+                  accept="image/*"
+                  type="file"
+                />
+              </div>
+              <div className="space-y-2 my-3">
+                {isLoading ? (
                   <Button type="submit" className="w-full bg-neon">
+                    <Spinner size="sm" />
+                  </Button>
+                ) : (
+                  <Button
+                    onPress={handleListBook}
+                    type="submit"
+                    className="w-full bg-neon"
+                  >
                     List Book
                   </Button>
-                </div>
-              </form>
+                )}
+              </div>
             </CardBody>
           </Card>
         </div>
       </div>
-      <Footer />
     </>
   );
 }

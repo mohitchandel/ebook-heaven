@@ -6,6 +6,8 @@ import { NextUIProvider } from "@nextui-org/react";
 import { Toaster } from "react-hot-toast";
 import Provider from "./_trpc/provider";
 import Header from "@/Components/Header";
+import UserContextProvider from "./context/UserContextProvider";
+import Footer from "@/Components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,8 +21,11 @@ export default async function RootLayout({
       <body className={(inter.className, "flex flex-col min-h-screen")}>
         <NextUIProvider>
           <Provider>
-            <Header />
-            {children}
+            <UserContextProvider>
+              <Header />
+              {children}
+              <Footer />
+            </UserContextProvider>
           </Provider>
           <Toaster />
         </NextUIProvider>

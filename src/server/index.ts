@@ -4,10 +4,6 @@ import { db } from "./db";
 import { publicProcedure, router } from "./trpc";
 
 export const appRouter = router({
-  getUsersList: publicProcedure.query(async () => {
-    const users = await db.profiles.findMany();
-    return users;
-  }),
   getUserById: publicProcedure.input(z.string()).query(async (opts) => {
     const { input } = opts;
     const user = await db.profiles.findById(input);
@@ -16,7 +12,7 @@ export const appRouter = router({
   createUserProfile: publicProcedure
     .input(
       z.object({
-        userId: z.string(), // TODO: validate UUID format?
+        userId: z.string(),
         name: z.string(),
         type: z.string(),
       })

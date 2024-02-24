@@ -1,6 +1,5 @@
 "use client";
 import Footer from "@/Components/Footer";
-import Header from "@/Components/Header";
 import {
   Button,
   Card,
@@ -10,35 +9,38 @@ import {
   Input,
 } from "@nextui-org/react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useContext, useState } from "react";
+import UserContext from "../context/UserContext";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-
-const ERROR_MESSAGES = {
-  wrongCredentials: "Invalid login credentials",
-};
 
 export default function LoginPage() {
+  const { setUserId, setRefreshToken } = useContext(UserContext);
+
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [isError, setIsError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>();
   const supabase = createClientComponentClient();
-
   const router = useRouter();
 
   /* 
     This function handles the sign-in process
   */
   const handleSignIn = async () => {
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const {
+      data: { user, session },
+      error,
+    } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
-    console.log(data);
-
-    if (data && !error) {
-      location.reload(); // Reload to get new user information after successful authentication
+    if (user && !error) {
+      setRefreshToken(session?.refresh_token as string);
+      localStorage.setItem("sb-lc-rt", session?.refresh_token as string);
+      setUserId(user?.id);
+      localStorage.setItem("sb-lc-uid", user?.id);
+      router.replace("/");
     }
 
     if (error) {
@@ -98,7 +100,6 @@ export default function LoginPage() {
           </Card>
         </div>
       </div>
-      <Footer />
     </>
   );
 }
