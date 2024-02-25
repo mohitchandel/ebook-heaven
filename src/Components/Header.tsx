@@ -13,6 +13,7 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
+  Skeleton,
 } from "@nextui-org/react";
 import Link from "next/link";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
@@ -25,7 +26,11 @@ export default function Header() {
 
   const { userId, refreshToken, setRefreshToken, setUserId } =
     useContext(UserContext);
-  const { data: userData } = trpc.getUserById.useQuery(userId || "", {
+  const {
+    data: userData,
+    isFetched: isUserFetched,
+    isLoading: isUserLoading,
+  } = trpc.getUserById.useQuery(userId || "", {
     enabled: !!userId,
   });
 
@@ -120,6 +125,8 @@ export default function Header() {
                 <DropdownUserItem
                   sessionUser={userData}
                   handleSignOut={handleSignOut}
+                  isFetched={isUserFetched}
+                  isLoading={isUserLoading}
                 />
               </NavbarItem>
             </>
@@ -153,6 +160,8 @@ export default function Header() {
             <DropdownUserItem
               sessionUser={userData}
               handleSignOut={handleSignOut}
+              isFetched={isUserFetched}
+              isLoading={isUserLoading}
             />
           )}
         </NavbarMenu>
@@ -164,9 +173,13 @@ export default function Header() {
 function DropdownUserItem({
   sessionUser,
   handleSignOut,
+  isFetched,
+  isLoading,
 }: {
   sessionUser: any;
   handleSignOut: MouseEventHandler<HTMLLIElement> | undefined;
+  isFetched: boolean;
+  isLoading: boolean;
 }) {
   return (
     <Dropdown placement="bottom-end">
@@ -196,9 +209,15 @@ function DropdownUserItem({
       <DropdownMenu aria-label="Profile Actions" variant="flat">
         <DropdownItem key="profile" className="h-14 gap-2">
           <p className="font-semibold">Signed in as</p>
-          <p className="font-semibold">{sessionUser?.name}</p>
+          <p className="font-semibold">
+            <Skeleton isLoaded={isFetched && !isLoading}>
+              {sessionUser?.name}
+            </Skeleton>
+          </p>
         </DropdownItem>
-        <DropdownItem key="settings">Profile</DropdownItem>
+        <DropdownItem key="settings">
+          <Link href={"/profile"}>Profile</Link>
+        </DropdownItem>
         <DropdownItem onClick={handleSignOut} key="logout" color="danger">
           Log Out
         </DropdownItem>

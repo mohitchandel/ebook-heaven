@@ -25,6 +25,16 @@ export const db = {
         },
       });
     },
+    update: async (profile: { userId: string; name: string }) => {
+      await prisma.profiles.update({
+        where: {
+          user_id: profile.userId,
+        },
+        data: {
+          name: profile.name,
+        },
+      });
+    },
   },
   ebooks: {
     findMany: async () => {

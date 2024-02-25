@@ -17,7 +17,7 @@ export default function Ebook({ params: { ebookId } }: Params) {
 
   return (
     <>
-      <main>
+      <main className="flex min-h-screen flex-col items-center justify-between p-24">
         <div className="my-20 py-20 max-w-4xl mx-auto p-4 bg-white flex gap-8 h-max	">
           <div className="flex flex-col gap-4">
             <div className="w-96 h-96 bg-gray-200">

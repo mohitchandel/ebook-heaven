@@ -1,6 +1,8 @@
 "use client";
 import EbookGrid from "@/Components/Ebooks/EbookGrid";
+import EbookSkeletonGrid from "@/Components/Skeletons/EbookSkeletonGrid";
 import { trpc } from "@/app/_trpc/client";
+import { Skeleton } from "@nextui-org/react";
 
 type Params = {
   params: {
@@ -9,7 +11,8 @@ type Params = {
 };
 
 export default function AuthorEbook({ params: { authorId } }: Params) {
-  const { data: ebooksData } = trpc.getEbooksByAuthorId.useQuery(authorId);
+  const { data: ebooksData, isFetched } =
+    trpc.getEbooksByAuthorId.useQuery(authorId);
   const { data: authorData } = trpc.getUserById.useQuery(authorId);
   return (
     <>
@@ -18,10 +21,16 @@ export default function AuthorEbook({ params: { authorId } }: Params) {
           <div className="container px-4 md:px-6">
             <div className="text-center py-5 mb-5">
               <h2 className="text-2xl font-bold tracking-tighter sm:text-5xl">
-                Ebooks By {authorData?.name}
+                <Skeleton isLoaded={isFetched}>
+                  Ebooks By {authorData?.name}
+                </Skeleton>
               </h2>
             </div>
-            <EbookGrid ebooksData={ebooksData!} />
+            {isFetched ? (
+              <EbookGrid ebooksData={ebooksData!} />
+            ) : (
+              <EbookSkeletonGrid ebooksDataLength={ebooksData?.length! || 4} />
+            )}
           </div>
         </section>
       </main>

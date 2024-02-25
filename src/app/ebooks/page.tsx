@@ -2,9 +2,10 @@
 import EbookGrid from "@/Components/Ebooks/EbookGrid";
 import { Ebook } from "@/types/Ebook";
 import { trpc } from "@/app/_trpc/client";
+import EbookSkeletonGrid from "@/Components/Skeletons/EbookSkeletonGrid";
 
 export default function Ebook() {
-  const { data: ebooksData } = trpc.getEbooks.useQuery();
+  const { data: ebooksData, isFetched } = trpc.getEbooks.useQuery();
 
   return (
     <>
@@ -16,7 +17,11 @@ export default function Ebook() {
                 Download any ebook you want
               </h2>
             </div>
-            <EbookGrid ebooksData={ebooksData!} />
+            {isFetched ? (
+              <EbookGrid ebooksData={ebooksData!} />
+            ) : (
+              <EbookSkeletonGrid ebooksDataLength={ebooksData?.length! || 4} />
+            )}
           </div>
         </section>
       </main>

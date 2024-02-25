@@ -10,6 +10,18 @@ export const appRouter = router({
     const user = await db.profiles.findById(input);
     return user;
   }),
+  updateUserProfile: publicProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        name: z.string(),
+      })
+    )
+    .mutation(async (opts) => {
+      const { input } = opts;
+      const user = await db.profiles.update(input);
+      return user;
+    }),
   createUserProfile: publicProcedure
     .input(
       z.object({
