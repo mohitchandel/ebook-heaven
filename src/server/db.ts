@@ -16,6 +16,14 @@ export const db = {
       });
       return user;
     },
+    findAuthorType: async () => {
+      const user = await prisma.profiles.findMany({
+        where: {
+          type: "Author",
+        },
+      });
+      return user;
+    },
     create: async (profile: { userId: string; name: string; type: string }) => {
       await prisma.profiles.create({
         data: {

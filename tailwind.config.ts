@@ -12,6 +12,7 @@ const config: Config = {
     extend: {
       fontFamily: {
         League: ["League Spartan"],
+        Serif: ["DM Serif Display"],
       },
       colors: {
         white: "#FFFFFF",

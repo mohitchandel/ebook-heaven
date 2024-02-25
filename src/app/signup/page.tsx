@@ -78,7 +78,7 @@ export default function SignUpPage() {
 
   return (
     <>
-      <div className="flex items-center justify-center min-h-[85vh] max-h-[100vh]">
+      <div className="flex items-center justify-center min-h-[85vh] max-h-[100vh] bg-black">
         <div className="w-full max-w-screen-lg md:w-3/5">
           <Card className="mx-auto max-w-sm h-full">
             <CardHeader className="justify-center">
@@ -141,13 +141,9 @@ export default function SignUpPage() {
                 onPress={register}
                 disabled={isLoading}
                 type="submit"
-                className="w-full bg-neon"
+                className="w-full bg-black text-white"
               >
-                {isLoading ? (
-                  <Spinner color="secondary" size="sm" />
-                ) : (
-                  "Register"
-                )}
+                {isLoading ? <Spinner color="success" size="sm" /> : "Register"}
               </Button>
             </CardFooter>
           </Card>

@@ -52,7 +52,7 @@ export default function LoginPage() {
 
   return (
     <>
-      <div className="flex items-center justify-center min-h-[85vh] max-h-[100vh]">
+      <div className="flex items-center justify-center min-h-[85vh] max-h-[100vh] bg-black">
         <div className="w-full max-w-screen-lg md:w-3/5">
           <Card className="mx-auto max-w-sm h-full">
             <CardHeader className="justify-center">
@@ -93,7 +93,10 @@ export default function LoginPage() {
               </div>
             </CardBody>
             <CardFooter>
-              <Button onPress={handleSignIn} className="w-full bg-neon">
+              <Button
+                onPress={handleSignIn}
+                className="w-full bg-black text-white"
+              >
                 Sign in
               </Button>
             </CardFooter>

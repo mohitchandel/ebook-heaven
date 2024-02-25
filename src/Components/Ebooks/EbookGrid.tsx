@@ -9,7 +9,7 @@ export default function EbookGrid({ ebooksData }: { ebooksData: Ebook[] }) {
         ebooksData.map((book, index) => (
           <div
             key={index}
-            className="flex flex-col rounded-lg border border-gray-100 dark:border-gray-800"
+            className="flex flex-col rounded-lg border border-gray-100 bg-white"
           >
             <Image
               isZoomed
@@ -27,8 +27,8 @@ export default function EbookGrid({ ebooksData }: { ebooksData: Ebook[] }) {
                 </h3>
               </div>
               <div className=" w-full">
-                <Chip className="bg-green text-[#fff]">
-                  <Link href={"/ebooks/byauthors/" + book.author_id}>
+                <Chip className="bg-black text-white">
+                  <Link href={"/authors/" + book.author_id}>
                     {book.author_name}
                   </Link>
                 </Chip>
@@ -44,7 +44,7 @@ export default function EbookGrid({ ebooksData }: { ebooksData: Ebook[] }) {
               <Button
                 href={"/ebooks/" + book.id}
                 as={Link}
-                className="bg-neon"
+                className="bg-black text-white hover:bg-neon hover:text-black"
                 variant="solid"
               >
                 View Book

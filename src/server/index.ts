@@ -5,6 +5,10 @@ import { publicProcedure, router } from "./trpc";
 
 export const appRouter = router({
   // user Method
+  getAuthorsProfiles: publicProcedure.query(async () => {
+    const ebooks = await db.profiles.findAuthorType();
+    return ebooks;
+  }),
   getUserById: publicProcedure.input(z.string()).query(async (opts) => {
     const { input } = opts;
     const user = await db.profiles.findById(input);

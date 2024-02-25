@@ -86,6 +86,9 @@ export default function Header() {
           <NavbarItem>
             <Link href={"/ebooks"}>All Books</Link>
           </NavbarItem>
+          <NavbarItem>
+            <Link href={"/authors"}>Authors</Link>
+          </NavbarItem>
           {userData?.type === "Author" && (
             <NavbarItem>
               <Link href={"/listbook"}>List Book</Link>
@@ -141,6 +144,11 @@ export default function Header() {
           <NavbarMenuItem>
             <Link className={"w-full"} href={"/ebooks"}>
               All Books
+            </Link>
+          </NavbarMenuItem>
+          <NavbarMenuItem>
+            <Link className={"w-full"} href={"/authors"}>
+              Authors
             </Link>
           </NavbarMenuItem>
           {userData?.type === "Author" && (

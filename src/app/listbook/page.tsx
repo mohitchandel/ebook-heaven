@@ -25,8 +25,8 @@ export default function ListBookPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [title, setTitle] = useState<string>();
   const [description, setDescription] = useState<string>();
-  const [bookPdf, setBookPdf] = useState<File | null>();
-  const [thumbnail, setThumbnail] = useState<File | null>();
+  const [bookPdf, setBookPdf] = useState<File | null>(null);
+  const [thumbnail, setThumbnail] = useState<File | null>(null);
   const router = useRouter();
   const currentTimestamp = +new Date();
   const supabse = createClient();
@@ -47,6 +47,7 @@ export default function ListBookPage() {
 
   const handleListBook = async () => {
     if (!userData) {
+      toast.error("Login first");
       return;
     }
     if (!title || !description || !bookPdf || !thumbnail) {
@@ -104,7 +105,7 @@ export default function ListBookPage() {
 
   return (
     <>
-      <div className="flex items-center justify-center min-h-[85vh] max-h-[100vh]">
+      <div className="flex items-center justify-center min-h-[85vh] max-h-[100vh] bg-black">
         <div className="w-full max-w-screen-lg md:w-3/5">
           <Card className="mx-auto max-w-sm h-full">
             <CardHeader className="justify-center">
@@ -137,35 +138,57 @@ export default function ListBookPage() {
                 />
               </div>
               <div className="space-y-2 my-3">
-                <label className="text-sm mb-0">Ebook (PDF Only)</label>
-                <Input
-                  isRequired
-                  id="ebook"
-                  accept="application/pdf"
-                  onChange={handlePDFUpload}
+                <label className="text-sm mb-0">Ebook</label>
+                <input
                   type="file"
+                  accept="application/pdf"
+                  id="ebook"
+                  className="block w-full text-sm text-slate-500
+        file:mr-4 file:py-2 file:px-4 file:rounded-md
+        file:border-0 file:text-sm file:font-semibold
+        file:bg-neon file:text-black
+        hover:file:bg-neon"
+                  required
+                  onChange={handlePDFUpload}
                 />
+                <p
+                  className="mt-1 text-sm text-gray-500 dark:text-gray-300"
+                  id="file_input_help"
+                >
+                  PDF
+                </p>
               </div>
               <div className="space-y-2 my-3">
                 <label className="text-sm mb-0">Thumbnail</label>
-                <Input
-                  isRequired
-                  id="thumbnail"
-                  onChange={handleThumbnailUpload}
-                  accept="image/*"
+                <input
                   type="file"
+                  accept="image/*"
+                  id="thumbnail"
+                  className="block w-full text-sm text-slate-500
+        file:mr-4 file:py-2 file:px-4 file:rounded-md
+        file:border-0 file:text-sm file:font-semibold
+        file:bg-neon file:text-black
+        hover:file:bg-neon"
+                  required
+                  onChange={handleThumbnailUpload}
                 />
+                <p
+                  className="mt-1 text-sm text-gray-500 dark:text-gray-300"
+                  id="file_input_help"
+                >
+                  SVG, PNG, JPG
+                </p>
               </div>
               <div className="space-y-2 my-3">
                 {isLoading ? (
-                  <Button type="submit" className="w-full bg-neon">
-                    <Spinner size="sm" />
+                  <Button type="submit" className="w-full bg-black text-white">
+                    <Spinner color="success" size="sm" />
                   </Button>
                 ) : (
                   <Button
                     onPress={handleListBook}
                     type="submit"
-                    className="w-full bg-neon"
+                    className="w-full bg-black text-white"
                   >
                     List Book
                   </Button>
