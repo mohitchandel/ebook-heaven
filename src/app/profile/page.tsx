@@ -18,6 +18,7 @@ import UserContext from "../context/UserContext";
 import { trpc } from "../_trpc/client";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import EbookGrid from "@/Components/Ebooks/EbookGrid";
 
 export default function UserProfile() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -80,7 +81,10 @@ export default function UserProfile() {
                     <div className="text-sm font-medium text-gray-500 dark:text-gray-400">
                       Published Books
                     </div>
-                    <div className="text-lg font-semibold">
+                    <div
+                      onClick={() => router.push("authors/" + userData.user_id)}
+                      className="text-lg font-semibold cursor-pointer"
+                    >
                       {userPost?.length}
                     </div>
                   </div>

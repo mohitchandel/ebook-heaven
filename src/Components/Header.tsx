@@ -56,7 +56,7 @@ export default function Header() {
       }
     }
     checkForLS();
-  }, [refreshToken, userId]);
+  });
 
   return (
     <>
@@ -153,6 +153,7 @@ export default function Header() {
                   handleSignOut={handleSignOut}
                   isFetched={isUserFetched}
                   isLoading={isUserLoading}
+                  router={router}
                 />
               )}
             </ul>
@@ -168,11 +169,13 @@ function DropdownUserItem({
   handleSignOut,
   isFetched,
   isLoading,
+  router,
 }: {
   sessionUser: any;
   handleSignOut: MouseEventHandler<HTMLLIElement> | undefined;
   isFetched: boolean;
   isLoading: boolean;
+  router: any;
 }) {
   return (
     <Dropdown placement="bottom-end">
@@ -208,8 +211,8 @@ function DropdownUserItem({
             </Skeleton>
           </p>
         </DropdownItem>
-        <DropdownItem key="settings">
-          <Link href={"/profile"}>Profile</Link>
+        <DropdownItem onPress={() => router.push("/profile")} key="settings">
+          Profile
         </DropdownItem>
         <DropdownItem onClick={handleSignOut} key="logout" color="danger">
           Log Out
