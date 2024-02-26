@@ -12,6 +12,12 @@ import {
 } from "@nextui-org/react";
 import Link from "next/link";
 
+/* The `interface Author` is defining a structure for an object representing an author.
+- `name` of type string
+- `type` of type string
+- `id` of type string
+- `user_id` of type string
+ */
 interface Author {
   name: string;
   type: string;
@@ -19,6 +25,8 @@ interface Author {
   user_id: string;
 }
 
+/* The `interface AuthorsTableGridProps` is defining a structure for the `Author` array type.
+`*/
 interface AuthorsTableGridProps {
   authors: Author[];
 }

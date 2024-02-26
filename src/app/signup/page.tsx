@@ -41,7 +41,7 @@ export default function SignUpPage() {
   const supabase = createClientComponentClient();
 
   /**
-   * The `register` function handles user registration by signing up with email and password, creating a user profile, and displaying appropriate error messages.
+   * The `register` function handles user registration by registering up with email and password and creating a user profile
    */
   const register = async () => {
     setIsLoading(true);

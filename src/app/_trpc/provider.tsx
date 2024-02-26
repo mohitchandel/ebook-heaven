@@ -5,6 +5,9 @@ import React, { useState } from "react";
 
 import { trpc } from "./client";
 
+/**
+ * The Provider component sets up and provides trpc and QueryClient instances to its children.
+ */
 export default function Provider({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient({}));
   const [trpcClient] = useState(() =>

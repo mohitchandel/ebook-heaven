@@ -34,6 +34,7 @@ export default function ListBookPage() {
   const { userId } = useContext(UserContext);
   const { data: userData } = trpc.getUserById.useQuery(userId);
 
+  // Using mutation to create the ebook
   const listBookMutation = trpc.createEbooks.useMutation({
     onError(error) {
       console.error("Error:", error);
@@ -45,6 +46,9 @@ export default function ListBookPage() {
     },
   });
 
+  /**
+   * The `handleListBook` uploads a book PDF and thumbnail image to a storage service, then creates a new book entry with the provided details.
+   */
   const handleListBook = async () => {
     if (!userData) {
       toast.error("Login first");
@@ -85,12 +89,18 @@ export default function ListBookPage() {
     }
   };
 
+  /**
+   * The function `handlePDFUpload` sets the state with the uploaded PDF file when a file input element changes.
+   */
   const handlePDFUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setBookPdf(e.target.files[0]);
     }
   };
 
+  /**
+   * The function `handleThumbnailUpload` sets the state with the thumbnail file when a file input element changes.
+   */
   const handleThumbnailUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setThumbnail(e.target.files[0]);
@@ -101,7 +111,7 @@ export default function ListBookPage() {
     if (userData?.type !== "Author") {
       router.replace("/");
     }
-  }, [userData]);
+  }, [userData, router]);
 
   return (
     <>

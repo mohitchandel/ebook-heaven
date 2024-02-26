@@ -4,6 +4,9 @@ import EbookSkeletonGrid from "@/Components/Skeletons/EbookSkeletonGrid";
 import { trpc } from "@/app/_trpc/client";
 import { Skeleton } from "@nextui-org/react";
 
+/**
+ * The type defines a Params object with a nested params property containing an authorId
+ */
 type Params = {
   params: {
     authorId: string;

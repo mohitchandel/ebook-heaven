@@ -23,9 +23,9 @@ export default function LoginPage() {
   const supabase = createClientComponentClient();
   const router = useRouter();
 
-  /* 
-    This function handles the sign-in process
-  */
+  /**
+   * The `handleSignIn` function signs in a user with email and password using Supabase authentication
+   */
   const handleSignIn = async () => {
     const {
       data: { user, session },

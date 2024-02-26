@@ -22,6 +22,7 @@ export default function RootLayout({
   const pathName = usePathname();
 
   useEffect(() => {
+    // Setting up the loading progress bar
     NProgress.start();
     setTimeout(() => {
       NProgress.done();

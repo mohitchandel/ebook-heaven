@@ -3,8 +3,12 @@ import { trpc } from "@/app/_trpc/client";
 import UserContext from "@/app/context/UserContext";
 import { Ebook } from "@/types/Ebook";
 import { Button, Card, CardFooter, Link, Skeleton } from "@nextui-org/react";
+import Image from "next/image";
 import { useContext } from "react";
 
+/**
+ * Type `Params` defines an object with a `params` property containing an `ebookId`.
+ */
 type Params = {
   params: {
     ebookId: string;
@@ -13,11 +17,7 @@ type Params = {
 
 export default function Ebook({ params: { ebookId } }: Params) {
   const { userId } = useContext(UserContext);
-  const {
-    data: ebook,
-    isFetched,
-    isFetching,
-  } = trpc.getEbookById.useQuery(ebookId);
+  const { data: ebook, isFetched } = trpc.getEbookById.useQuery(ebookId);
 
   return (
     <>
@@ -27,12 +27,12 @@ export default function Ebook({ params: { ebookId } }: Params) {
             <Card className="w-full p-6 bg-black" radius="lg">
               <Skeleton isLoaded={isFetched} className="rounded-lg">
                 <div className="mx-auto h-[300px] w-[200px] rounded-lg">
-                  <img
+                  <Image
                     alt="Main product"
                     className="w-full h-full"
-                    height="200px"
-                    src={ebook?.thumbnail}
-                    width="100px"
+                    height="200"
+                    src={ebook!?.thumbnail}
+                    width="100"
                   />
                 </div>
               </Skeleton>

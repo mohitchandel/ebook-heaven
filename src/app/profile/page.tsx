@@ -10,9 +10,7 @@ import {
   ModalFooter,
   Button,
   useDisclosure,
-  Checkbox,
   Input,
-  Link,
   Skeleton,
 } from "@nextui-org/react";
 import { useContext, useEffect, useState } from "react";
@@ -34,6 +32,9 @@ export default function UserProfile() {
   const [name, setName] = useState<string>(userData?.name || "");
   const updateUserProfile = trpc.updateUserProfile.useMutation();
 
+  /* This function is updating the user's profile information using
+  `updateUserProfile.mutate()`
+  */
   const updateProfile = async () => {
     try {
       updateUserProfile.mutate({ userId, name });
@@ -48,7 +49,7 @@ export default function UserProfile() {
     if (!userData) {
       router.replace("/login");
     }
-  }, [userId]);
+  }, [userId, userData, router]);
 
   return (
     <>

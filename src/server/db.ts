@@ -3,6 +3,9 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export const db = {
+  /**
+   The `profiles` object contains several methods related to interacting with user profiles in the database using Prisma client
+   */
   profiles: {
     findMany: async () => {
       const users = await prisma.profiles.findMany();
@@ -44,6 +47,7 @@ export const db = {
       });
     },
   },
+  /* The `ebooks` object contains methods related to interacting with ebook data in the database using the Prisma client. */
   ebooks: {
     findMany: async () => {
       const users = await prisma.ebooks.findMany();
