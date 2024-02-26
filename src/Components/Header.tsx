@@ -66,14 +66,17 @@ export default function Header() {
 
   return (
     <>
-      <Navbar className=" border" onMenuOpenChange={setIsMenuOpen}>
+      <Navbar
+        className="bg-black border-b  border-neon"
+        onMenuOpenChange={setIsMenuOpen}
+      >
         <NavbarContent>
           <NavbarMenuToggle
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             className="sm:hidden"
           />
           <NavbarBrand>
-            <p className="font-bold font-League text-inherit text-2xl">
+            <p className="font-bold text-neon font-League text-inherit text-2xl">
               Ebook Heaven
             </p>
           </NavbarBrand>
@@ -81,17 +84,25 @@ export default function Header() {
 
         <NavbarContent className="hidden sm:flex gap-4" justify="center">
           <NavbarItem>
-            <Link href={"/"}>Home</Link>
+            <Link className="text-white" href={"/"}>
+              Home
+            </Link>
           </NavbarItem>
           <NavbarItem>
-            <Link href={"/ebooks"}>All Books</Link>
+            <Link className="text-white" href={"/ebooks"}>
+              All Books
+            </Link>
           </NavbarItem>
           <NavbarItem>
-            <Link href={"/authors"}>Authors</Link>
+            <Link className="text-white" href={"/authors"}>
+              Authors
+            </Link>
           </NavbarItem>
           {userData?.type === "Author" && (
             <NavbarItem>
-              <Link href={"/listbook"}>List Book</Link>
+              <Link className="text-white" href={"/listbook"}>
+                List Book
+              </Link>
             </NavbarItem>
           )}
         </NavbarContent>

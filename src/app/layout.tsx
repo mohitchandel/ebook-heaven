@@ -8,14 +8,26 @@ import Provider from "./_trpc/provider";
 import Header from "@/Components/Header";
 import UserContextProvider from "./context/UserContextProvider";
 import Footer from "@/Components/Footer";
+import NProgress from "nprogress";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathName = usePathname();
+
+  useEffect(() => {
+    NProgress.start();
+    setTimeout(() => {
+      NProgress.done();
+    }, 3000);
+  }, [pathName]);
+
   return (
     <html lang="en">
       <body className={(inter.className, "flex flex-col min-h-screen")}>
