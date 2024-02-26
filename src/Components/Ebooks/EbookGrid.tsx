@@ -8,7 +8,7 @@ export default function EbookGrid({ ebooksData }: { ebooksData: Ebook[] }) {
       <div className="flex flex-wrap justify-center mt-10">
         {ebooksData &&
           ebooksData.map((book, index) => (
-            <div className="p-4 max-w-sm">
+            <div key={index} className="p-4 max-w-sm">
               <div className="flex rounded-lg h-full dark:bg-gray-800 bg-teal-400 p-8 flex-col">
                 <div className="flex items-center mb-3">
                   <h2 className="text-white dark:text-white text-2lg font-medium">
