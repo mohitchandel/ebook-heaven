@@ -4,6 +4,7 @@ import UserContext from "@/app/context/UserContext";
 import { Ebook } from "@/types/Ebook";
 import { Button, Card, CardFooter, Link, Skeleton } from "@nextui-org/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useContext } from "react";
 
 /**
@@ -17,6 +18,7 @@ type Params = {
 
 export default function Ebook({ params: { ebookId } }: Params) {
   const { userId } = useContext(UserContext);
+  const router = useRouter();
   const { data: ebook, isFetched } = trpc.getEbookById.useQuery(ebookId);
 
   return (
@@ -80,7 +82,10 @@ export default function Ebook({ params: { ebookId } }: Params) {
                     Download
                   </Button>
                 ) : (
-                  <Button disabled className="btn bg-danger rounded-lg mx-auto">
+                  <Button
+                    onClick={() => router.push("/login")}
+                    className="btn bg-danger rounded-lg mx-auto"
+                  >
                     Login To Download
                   </Button>
                 )}
