@@ -49,7 +49,7 @@ export default function Header() {
       console.log(data);
     };
     refreshSession();
-  });
+  }, [refreshToken]);
 
   useEffect(() => {
     async function checkForLS() {
@@ -62,7 +62,7 @@ export default function Header() {
       }
     }
     checkForLS();
-  });
+  }, [refreshToken, userId]);
 
   return (
     <>
