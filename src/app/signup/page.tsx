@@ -28,7 +28,7 @@ export default function SignUpPage() {
       toast.success("Registered");
       console.log(data);
       setIsLoading(false);
-      router.replace("/");
+      router.replace("/login");
     },
   });
 

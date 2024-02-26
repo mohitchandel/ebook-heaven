@@ -6,6 +6,8 @@ Ebook Heaven is a delightful application tailored for book enthusiasts. It serve
 
 ### For Authors
 
+**Note:** Users have to verify their email before login.
+
 Authors can create their profiles under the "Author" category:
 
 - **Profile Creation:** Build your author profile to showcase your literary journey.

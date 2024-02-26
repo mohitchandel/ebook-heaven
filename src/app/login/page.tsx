@@ -37,9 +37,7 @@ export default function LoginPage() {
 
     if (user && !error) {
       setRefreshToken(session?.refresh_token as string);
-      localStorage.setItem("sb-lc-rt", session?.refresh_token as string);
       setUserId(user?.id);
-      localStorage.setItem("sb-lc-uid", user?.id);
       router.replace("/");
     }
 
