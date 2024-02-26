@@ -67,8 +67,7 @@ export default function Header() {
             <p className="font-bold text-neon text-2xl">Ebook Heaven</p>
           </div>
 
-          {/* Navbar Menu (Large Screens) */}
-          <div className="hidden sm:flex gap-8 w-100 justify-between items-center">
+          <div className="md:flex sm:hidden gap-8 w-100 justify-between items-center">
             <Link href="/" className="text-white whitespace-nowrap">
               Home
             </Link>
@@ -110,9 +109,7 @@ export default function Header() {
             )}
           </div>
 
-          {/* Navbar Menu (Small Screens) */}
           <div className="sm:hidden">
-            {/* Menu Button (Toggle) */}
             <button
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
               className="text-white"
