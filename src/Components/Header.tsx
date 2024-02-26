@@ -60,125 +60,100 @@ export default function Header() {
 
   return (
     <>
-      <nav className="bg-black border-b border-neon py-4">
-        <div className="container mx-auto px-4 py-2 flex justify-between items-center">
-          {/* Navbar Brand */}
-          <div>
-            <p className="font-bold text-neon text-2xl">Ebook Heaven</p>
-          </div>
-
-          <div className="md:flex sm:hidden gap-8 w-100 justify-between items-center">
-            <Link href="/" className="text-white whitespace-nowrap">
-              Home
-            </Link>
-            <Link href="/ebooks" className="text-white whitespace-nowrap">
-              All Books
-            </Link>
-            <Link href="/authors" className="text-white  whitespace-nowrap">
-              Authors
-            </Link>
-            {userData?.type === "Author" && (
-              <Link href="/listbook" className="text-white whitespace-nowrap">
-                List Book
-              </Link>
-            )}
-            {!userId ? (
-              <>
-                <div className="flex items-center">
-                  <button
-                    onClick={() => router.push("/login")}
-                    className="bg-white text-black px-4 py-2 rounded-md mr-4 hover:bg-neon hover:text-black"
-                  >
-                    Login
-                  </button>
-                  <button
-                    onClick={() => router.push("/signup")}
-                    className="bg-neon text-black px-4 py-2 rounded-md hover:bg-white hover:text-black"
-                  >
-                    Sign Up
-                  </button>
-                </div>
-              </>
-            ) : (
-              <DropdownUserItem
-                sessionUser={userData}
-                handleSignOut={handleSignOut}
-                isFetched={isUserFetched}
-                isLoading={isUserLoading}
-              />
-            )}
-          </div>
-
-          <div className="sm:hidden">
-            <button
-              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-              className="text-white"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
+      <nav className="bg-white border-gray-200 dark:bg-gray-900">
+        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+          <p className="font-bold text-neon text-2xl">Ebook Heaven</p>
+          <button
+            data-collapse-toggle="navbar-default"
+            type="button"
+            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            aria-controls="navbar-default"
+            aria-expanded="false"
+          >
+            <span className="sr-only">Open main menu</span>
+            <svg
+              className="w-5 h-5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 17 14"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
+              <path
                 stroke="currentColor"
-              >
-                {isMenuOpen ? (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                ) : (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 6h16M4 12h16m-7 6h7"
-                  />
-                )}
-              </svg>
-            </button>
-          </div>
-
-          {/* Navbar Menu Content (Small Screens) */}
-          {isMenuOpen && (
-            <div className="sm:hidden">
-              <div className="bg-black text-white mt-2 py-2 px-4">
-                <Link href="/" className="w-full block">
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M1 1h15M1 7h15M1 13h15"
+              />
+            </svg>
+          </button>
+          <div
+            className="hidden w-full md:block md:w-auto justify-between items-center"
+            id="navbar-default"
+          >
+            <ul className="justify-between items-center font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+              <li>
+                <Link
+                  href="/"
+                  className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
+                  aria-current="page"
+                >
                   Home
                 </Link>
-                <Link href="/ebooks" className="w-full block">
-                  All Books
+              </li>
+              <li>
+                <Link
+                  href="/ebooks"
+                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                >
+                  Ebooks
                 </Link>
-                <Link href="/authors" className="w-full block">
+              </li>
+              <li>
+                <Link
+                  href="/authors"
+                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                >
                   Authors
                 </Link>
-                {userData?.type === "Author" && (
-                  <Link href="/listbook" className="w-full block">
+              </li>
+              {userData?.type === "Author" && (
+                <li>
+                  <Link
+                    href="/listbook"
+                    className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                  >
                     List Book
                   </Link>
-                )}
-                {!userId ? (
-                  <>
-                    <Link href="/login" className="w-full block text-white">
+                </li>
+              )}
+              {!userId ? (
+                <>
+                  <div className="flex items-center">
+                    <button
+                      onClick={() => router.push("/login")}
+                      className="bg-white text-black px-4 py-2 rounded-md mr-4 hover:bg-neon hover:text-black"
+                    >
                       Login
-                    </Link>
-                    <Link href="/signup" className="w-full block text-white">
+                    </button>
+                    <button
+                      onClick={() => router.push("/signup")}
+                      className="bg-neon text-black px-4 py-2 rounded-md hover:bg-white hover:text-black"
+                    >
                       Sign Up
-                    </Link>
-                  </>
-                ) : (
-                  <DropdownUserItem
-                    sessionUser={userData}
-                    handleSignOut={handleSignOut}
-                    isFetched={isUserFetched}
-                    isLoading={isUserLoading}
-                  />
-                )}
-              </div>
-            </div>
-          )}
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <DropdownUserItem
+                  sessionUser={userData}
+                  handleSignOut={handleSignOut}
+                  isFetched={isUserFetched}
+                  isLoading={isUserLoading}
+                />
+              )}
+            </ul>
+          </div>
         </div>
       </nav>
     </>
