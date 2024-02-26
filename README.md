@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Welcome to Ebook Heaven 📚✨
 
-## Getting Started
+Ebook Heaven is a delightful application tailored for book enthusiasts. It serves as a platform for authors to showcase and publish their literary creations while providing readers with seamless access to a treasure trove of ebooks by their favorite authors.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### For Authors
+
+Authors can create their profiles under the "Author" category:
+
+- **Profile Creation:** Build your author profile to showcase your literary journey.
+- **Book Listing:** Easily list and publish your ebooks for readers to discover.
+- **Ebook Downloads:** Access a wide array of ebooks uploaded by fellow authors.
+
+### For Readers
+
+Readers can create their accounts under the "Reader" profile:
+
+- **Account Setup:** Create a reader account to personalize your Ebook Heaven experience.
+- **Ebook Downloads:** Dive into a world of literature and download ebooks of your choice with ease.
+
+**Note:** Only registered authors can publish their ebooks on Ebook Heaven.
+
+## Dependencies
+
+Ebook Heaven utilizes a stack of powerful technologies:
+
+- **CSS Framework:** [`Tailwind CSS`](https://tailwindcss.com/) - A utility-first CSS framework for rapidly building custom designs.
+- **UI:** [`@nextui-org/react`](https://github.com/nextui-org/react) - A sleek UI library for Next.js applications.
+- **Framework:** [`Next.js`](https://nextjs.org/) - The JavaScript library for building intuitive user interfaces.
+- **Notifications:** [`react-hot-toast`](https://react-hot-toast.com/) - Engaging toast notifications tailored for React applications.
+- **Database:** [`supabase`](https://supabase.io/docs/guides/database) - A robust database solution to power the backend.
+- **Schema Management:** [`prisma`](https://www.prisma.io/) - Streamline database schema management for increased efficiency.
+- **API:** [`trpc`](https://trpc.io/) - A versatile tool for building type-safe APIs effortlessly.
+
+## Installation
+
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/mohitchandel/ebook-heaven.git
+   ```
+2. Install dependencies using `npm install` or `yarn install`.
+3. Run the application using `npm start` or `yarn start`.
+
+## Set Up Environment Variables:
+
+Create a .env file in the root directory of your project and add the following variables:
+
+```env
+DATABASE_URL="" #supabase database url
+SUPABASE_PASSWORD=""
+NEXT_PUBLIC_SUPABASE_URL=""
+NEXT_PUBLIC_SUPABASE_ANON_KEY=""
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
