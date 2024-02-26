@@ -27,7 +27,8 @@ export default function Ebook({ params: { ebookId } }: Params) {
             <Card className="w-full p-6 bg-black" radius="lg">
               <Skeleton isLoaded={isFetched} className="rounded-lg">
                 <div className="mx-auto h-[300px] w-[200px] rounded-lg">
-                  <Image
+                  {/* Ebook Image */}
+                  <img
                     alt="Main product"
                     className="w-full h-full"
                     height="200"
