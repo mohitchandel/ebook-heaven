@@ -1,14 +1,6 @@
 "use client";
 import { MouseEventHandler, useContext, useEffect, useState } from "react";
 import {
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-  NavbarMenuToggle,
-  NavbarMenuItem,
-  NavbarMenu,
-  Button,
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
@@ -19,10 +11,12 @@ import Link from "next/link";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import UserContext from "@/app/context/UserContext";
 import { trpc } from "@/app/_trpc/client";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const supabase = createClientComponentClient();
+  const router = useRouter();
 
   const { userId, refreshToken, setRefreshToken, setUserId } =
     useContext(UserContext);
@@ -66,125 +60,130 @@ export default function Header() {
 
   return (
     <>
-      <Navbar
-        className="bg-black border-b  border-neon"
-        onMenuOpenChange={setIsMenuOpen}
-      >
-        <NavbarContent>
-          <NavbarMenuToggle
-            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-            className="sm:hidden"
-          />
-          <NavbarBrand>
-            <p className="font-bold text-neon font-League text-inherit text-2xl">
-              Ebook Heaven
-            </p>
-          </NavbarBrand>
-        </NavbarContent>
+      <nav className="bg-black border-b border-neon py-4">
+        <div className="container mx-auto px-4 py-2 flex justify-between items-center">
+          {/* Navbar Brand */}
+          <div>
+            <p className="font-bold text-neon text-2xl">Ebook Heaven</p>
+          </div>
 
-        <NavbarContent className="hidden sm:flex gap-4" justify="center">
-          <NavbarItem>
-            <Link className="text-white" href={"/"}>
+          {/* Navbar Menu (Large Screens) */}
+          <div className="hidden sm:flex gap-8 w-100 justify-between items-center">
+            <Link href="/" className="text-white whitespace-nowrap">
               Home
             </Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Link className="text-white" href={"/ebooks"}>
+            <Link href="/ebooks" className="text-white whitespace-nowrap">
               All Books
             </Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Link className="text-white" href={"/authors"}>
+            <Link href="/authors" className="text-white  whitespace-nowrap">
               Authors
             </Link>
-          </NavbarItem>
-          {userData?.type === "Author" && (
-            <NavbarItem>
-              <Link className="text-white" href={"/listbook"}>
+            {userData?.type === "Author" && (
+              <Link href="/listbook" className="text-white whitespace-nowrap">
                 List Book
               </Link>
-            </NavbarItem>
-          )}
-        </NavbarContent>
+            )}
+            {!userId ? (
+              <>
+                <div className="flex items-center">
+                  <button
+                    onClick={() => router.push("/login")}
+                    className="bg-white text-black px-4 py-2 rounded-md mr-4 hover:bg-neon hover:text-black"
+                  >
+                    Login
+                  </button>
+                  <button
+                    onClick={() => router.push("/signup")}
+                    className="bg-neon text-black px-4 py-2 rounded-md hover:bg-white hover:text-black"
+                  >
+                    Sign Up
+                  </button>
+                </div>
+              </>
+            ) : (
+              <DropdownUserItem
+                sessionUser={userData}
+                handleSignOut={handleSignOut}
+                isFetched={isUserFetched}
+                isLoading={isUserLoading}
+              />
+            )}
+          </div>
 
-        <NavbarContent className="hidden sm:flex gap-4" justify="end">
-          {!userId ? (
-            <>
-              <NavbarItem className="hidden lg:flex">
-                <Button
-                  className="bg-black text-white"
-                  as={Link}
-                  color="primary"
-                  href="/login"
-                  variant="flat"
-                >
-                  Log In
-                </Button>
-              </NavbarItem>
-              <NavbarItem>
-                <Button
-                  className="bg-neon text-black"
-                  as={Link}
-                  color="primary"
-                  href="/signup"
-                  variant="flat"
-                >
-                  Sign Up
-                </Button>
-              </NavbarItem>
-            </>
-          ) : (
-            <>
-              <NavbarItem className="hidden lg:flex">
-                <DropdownUserItem
-                  sessionUser={userData}
-                  handleSignOut={handleSignOut}
-                  isFetched={isUserFetched}
-                  isLoading={isUserLoading}
-                />
-              </NavbarItem>
-            </>
-          )}
-        </NavbarContent>
-        <NavbarMenu>
-          <NavbarMenuItem>
-            <Link className={"w-full"} href={"/"}>
-              Home
-            </Link>
-          </NavbarMenuItem>
-          <NavbarMenuItem>
-            <Link className={"w-full"} href={"/ebooks"}>
-              All Books
-            </Link>
-          </NavbarMenuItem>
-          <NavbarMenuItem>
-            <Link className={"w-full"} href={"/authors"}>
-              Authors
-            </Link>
-          </NavbarMenuItem>
-          {userData?.type === "Author" && (
-            <NavbarMenuItem>
-              <Link className={"w-full"} href={"/listbook"}>
-                List Book
-              </Link>
-            </NavbarMenuItem>
-          )}
+          {/* Navbar Menu (Small Screens) */}
+          <div className="sm:hidden">
+            {/* Menu Button (Toggle) */}
+            <button
+              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+              className="text-white"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                {isMenuOpen ? (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                ) : (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4 6h16M4 12h16m-7 6h7"
+                  />
+                )}
+              </svg>
+            </button>
+          </div>
 
-          {!userId ? (
-            <>
-              <NavbarItem>Login</NavbarItem>
-              <NavbarItem>SignUp</NavbarItem>
-            </>
-          ) : (
-            <DropdownUserItem
-              sessionUser={userData}
-              handleSignOut={handleSignOut}
-              isFetched={isUserFetched}
-              isLoading={isUserLoading}
-            />
+          {/* Navbar Menu Content (Small Screens) */}
+          {isMenuOpen && (
+            <div className="sm:hidden">
+              <div className="bg-black text-white mt-2 py-2 px-4">
+                <Link href="/" className="w-full block">
+                  Home
+                </Link>
+                <Link href="/ebooks" className="w-full block">
+                  All Books
+                </Link>
+                <Link href="/authors" className="w-full block">
+                  Authors
+                </Link>
+                {userData?.type === "Author" && (
+                  <Link href="/listbook" className="w-full block">
+                    List Book
+                  </Link>
+                )}
+                {!userId ? (
+                  <>
+                    <Link href="/login" className="w-full block text-white">
+                      Login
+                    </Link>
+                    <Link href="/signup" className="w-full block text-white">
+                      Sign Up
+                    </Link>
+                  </>
+                ) : (
+                  <DropdownUserItem
+                    sessionUser={userData}
+                    handleSignOut={handleSignOut}
+                    isFetched={isUserFetched}
+                    isLoading={isUserLoading}
+                  />
+                )}
+              </div>
+            </div>
           )}
-        </NavbarMenu>
-      </Navbar>
+        </div>
+      </nav>
     </>
   );
 }
