@@ -41,7 +41,6 @@ export default function ListBookPage() {
       setIsLoading(false);
     },
     onSuccess(data) {
-      console.log(data);
       setIsLoading(false);
     },
   });

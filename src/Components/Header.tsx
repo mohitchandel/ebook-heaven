@@ -40,7 +40,6 @@ export default function Header() {
       const { data } = await supabase.auth.refreshSession({
         refresh_token: refreshToken,
       });
-      console.log(data);
     };
     refreshSession();
   }, [refreshToken]);
