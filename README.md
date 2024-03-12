@@ -41,8 +41,8 @@ Ebook Heaven utilizes a stack of powerful technologies:
    ```bash
    git clone https://github.com/mohitchandel/ebook-heaven.git
    ```
-2. Install dependencies using `npm install` or `yarn install`.
-3. Run the application using `npm run dev` or `yarn dev`.
+2. Install dependencies using `npm install` or `yarn install` or `pnpm install`.
+3. Run the application using `npm run dev` or `yarn dev` or `pnpm dev`.
 
 ## Set Up Environment Variables:
 
